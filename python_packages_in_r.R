@@ -1,19 +1,17 @@
 install.packages('reticulate')
 install.packages('dplyr')
-install.packages('jsonlite')
-
-library('reticulate')
+install.packages('jsonlite')library('reticulate')
 library('dplyr')
 library('yaml')
 library('jsonlite')
 
-path_to_python <- "/usr/bin/python3.8"
+path_to_python <- "/usr/bin/python3"
 use_python(path_to_python)
 
-virtualenv_install("tweetenv", "requests", ignore_installed = TRUE)
-virtualenv_install("tweetenv", "json", ignore_installed = TRUE)
-virtualenv_install("tweetenv", "pandas", ignore_installed = TRUE)
-use_virtualenv("tweetenv", required = TRUE)
+conda_create("tweetenv")
+conda_install("tweetenv", "requests", ignore_installed = TRUE)
+conda_install("tweetenv", "pandas", ignore_installed = TRUE)
+use_condaenv("tweetenv", required = TRUE)
 
 j <- import("json")
 r <- import("requests")
@@ -21,7 +19,7 @@ pd <- import("pandas")
 
 input <- readline('What handle do you want to get Tweets from? ')
 
-url <- sprintf("https://api.twitter.com/labs/2/tweets/search?query=from:%s", input)
+url <- sprintf("https://api.twitter.com/2/tweets/search/recent?query=from:%s", input)
 print(url)
 
 
